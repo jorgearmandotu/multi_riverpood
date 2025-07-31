@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:multi_riverpood/pages/home_page.dart';
 import 'package:multi_riverpood/pages/login_page.dart';
 
 class AppRoutes {
@@ -11,7 +12,7 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> appRoutes = {
   login: ( context ) => const LoginPage(),
-  //home: ( context ) => const HomePage(),
+  home: ( context ) => HomePage(),
   //settings: ( context ) => const SettingsPage(),
   };
 

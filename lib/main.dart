@@ -10,10 +10,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: MaterialApp(
+    return Center(
+        child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Multisuministros',
         theme: ThemeData(
@@ -30,11 +28,9 @@ class MainApp extends StatelessWidget {
             onError: Colors.white,
           ),
         ),
-        initialRoute: AppRoutes.login,
+        initialRoute: AppRoutes.home,
         routes: AppRoutes.appRoutes,
-      ),
-        ),
-      ),
+      ),    
     );
   }
 }
