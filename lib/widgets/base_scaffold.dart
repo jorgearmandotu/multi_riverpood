@@ -4,7 +4,15 @@ import 'package:multi_riverpood/widgets/nav_bar.dart';
 class BaseScaffold extends StatelessWidget {
   final Widget body;
   final String title;
-  const BaseScaffold(
+
+  final List<NavigationItem> navigationItems = [
+    NavigationItem(icon: Icons.home, label: 'Home'),
+    NavigationItem(icon: Icons.settings, label: 'Settings'),
+    NavigationItem(icon: Icons.person, label: 'User'),
+    NavigationItem(icon: Icons.favorite, label: 'Favorites'),
+  ];
+
+  BaseScaffold(
     {super.key
     , required this.body, this.title = ''});
 
@@ -26,13 +34,7 @@ class BaseScaffold extends StatelessWidget {
       bottomNavigationBar:
         MediaQuery.of(context).size.width < 640
           ? NavBar(
-              navBarItems: [
-                NavBarData(icon: Icons.home),
-                NavBarData(icon: Icons.settings),
-                NavBarData(icon: Icons.person),
-                NavBarData(icon: Icons.favorite),
-              ],
-
+              navBarItems: navigationItems.map((item) => NavBarData(icon: item.icon)).toList(),
             )
           : null,
         body: Row(
@@ -41,24 +43,8 @@ class BaseScaffold extends StatelessWidget {
               SafeArea(
                 child:  NavigationRail(
                   extended: false,
-                  destinations: const [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.settings),
-                      label: Text('settings'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.person),
-                      label: Text('User'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
-                    ),
-                  ],
+                  destinations: navigationItems.map((item) => 
+                    NavigationRailDestination(icon: Icon(item.icon), label: Text(item.label))).toList(),
                   selectedIndex: 0,
                   onDestinationSelected: (int index) {
                           
@@ -72,4 +58,12 @@ class BaseScaffold extends StatelessWidget {
         )
       );
   }
+}
+
+
+class NavigationItem {
+  final IconData icon;
+  final String label;
+
+  NavigationItem({required this.icon, required this.label});
 }
