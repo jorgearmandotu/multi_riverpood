@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multi_riverpood/providers/navigation_provider.dart';
+import 'package:multi_riverpood/routes/app_routes.dart';
 import 'package:multi_riverpood/widgets/nav_bar.dart';
 
-class BaseScaffold extends StatelessWidget {
+class BaseScaffold extends ConsumerWidget {
   final Widget body;
   final String title;
 
@@ -17,7 +20,9 @@ class BaseScaffold extends StatelessWidget {
     , required this.body, this.title = ''});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(navigationIndexProvider);
+    final controller = ref.read(navigationIndexProvider.notifier);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -35,6 +40,7 @@ class BaseScaffold extends StatelessWidget {
         MediaQuery.of(context).size.width < 640
           ? NavBar(
               navBarItems: navigationItems.map((item) => NavBarData(icon: item.icon)).toList(),
+
             )
           : null,
         body: Row(
@@ -45,9 +51,10 @@ class BaseScaffold extends StatelessWidget {
                   extended: false,
                   destinations: navigationItems.map((item) => 
                     NavigationRailDestination(icon: Icon(item.icon), label: Text(item.label))).toList(),
-                  selectedIndex: 0,
+                  selectedIndex: selectedIndex,
                   onDestinationSelected: (int index) {
-                          
+                          controller.setIndex(index);
+                          Navigator.pushNamed(context, AppRoutes.appRoutes.keys.elementAt(index+1));
                   },
                 )
               ),

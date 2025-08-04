@@ -1,17 +1,21 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multi_riverpood/providers/navigation_provider.dart';
+import 'package:multi_riverpood/routes/app_routes.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends ConsumerWidget {
   final List<NavBarData> navBarItems;
   const NavBar({
     super.key,
     required this.navBarItems,});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
-    int selectedIndex = 0;
+    final selectedIndex = ref.watch(navigationIndexProvider);
+    final controller = ref.read(navigationIndexProvider.notifier);
     return  Container(
       height: 56,
       margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
@@ -26,8 +30,9 @@ class NavBar extends StatelessWidget {
           final int itemIndex = navBarItems.indexOf(item);
           return InkWell(
             onTap: () {
-             
-              },
+              controller.setIndex(itemIndex);
+              Navigator.pushNamed(context, AppRoutes.appRoutes.keys.elementAt(itemIndex+1));
+            },
             child: NavBarItem(
               data: item, 
               isSelected: itemIndex  == selectedIndex,
