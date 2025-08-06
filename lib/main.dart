@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multi_riverpood/routes/app_router.dart';
 import 'package:multi_riverpood/routes/app_routes.dart';
 
 void main() {
@@ -8,13 +9,14 @@ void main() {
   ));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = ref.watch(routerProvider);
     return Center(
-        child: MaterialApp(
+        child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Multisuministros',
         theme: ThemeData(
@@ -31,8 +33,9 @@ class MainApp extends StatelessWidget {
             onError: Colors.white,
           ),
         ),
-        initialRoute: AppRoutes.home,
-        routes: AppRoutes.appRoutes,
+        routerConfig: appRouter,
+        //initialRoute: AppRoutes.home,
+        //routes: AppRoutes.appRoutes,
       ),    
     );
   }
