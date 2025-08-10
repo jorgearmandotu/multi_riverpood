@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_riverpood/routes/app_router.dart';
-import 'package:multi_riverpood/routes/app_routes.dart';
 
 void main() {
   runApp(const ProviderScope(
@@ -34,8 +33,6 @@ class MainApp extends ConsumerWidget {
           ),
         ),
         routerConfig: appRouter,
-        //initialRoute: AppRoutes.home,
-        //routes: AppRoutes.appRoutes,
       ),    
     );
   }
