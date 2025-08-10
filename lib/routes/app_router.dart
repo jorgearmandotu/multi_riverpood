@@ -47,12 +47,12 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
 
     redirect: ( BuildContext context, GoRouterState state) {
-      final noAuthPaths = ['/login'];
+      final noAuthPaths = ['/', '/login', '/settings', '/favorites', '/userPage'];
 
       final authPaths = ['/', '/settings', '/favorites', '/userPage'];
 
       if(!isLoggedIn) {
-        return '/login';
+        return '/';
       }
       return null;
     }
