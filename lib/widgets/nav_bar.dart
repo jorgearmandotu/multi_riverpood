@@ -1,21 +1,21 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:multi_riverpood/providers/navigation_provider.dart';
-import 'package:multi_riverpood/routes/app_routes.dart';
+import 'package:go_router/go_router.dart';
+import 'package:multi_riverpood/widgets/base_scaffold.dart';
 
 class NavBar extends ConsumerWidget {
-  final List<NavBarData> navBarItems;
+  final List<NavigationItem> navBarItems;
   const NavBar({
     super.key,
     required this.navBarItems,});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    final selectedIndex = ref.watch(navigationIndexProvider);
-    final controller = ref.read(navigationIndexProvider.notifier);
+    final location = GoRouter.of(context).state.uri.toString();
+    final selectedIndex = navBarItems.indexWhere(
+      (item) => item.route == location,
+    );
     return  Container(
       height: 56,
       margin: const EdgeInsets.fromLTRB(5, 10, 5, 5),
@@ -25,41 +25,25 @@ class NavBar extends ConsumerWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ...navBarItems.map((item) {
-          final int itemIndex = navBarItems.indexOf(item);
+        children: List.generate(navBarItems.length, (index) {
+          final item = navBarItems[index];
           return InkWell(
-            onTap: () {
-              controller.setIndex(itemIndex);
-              Navigator.pushNamed(context, AppRoutes.appRoutes.keys.elementAt(itemIndex+1));
-            },
+            onTap: () => context.go(item.route),
             child: NavBarItem(
-              data: item, 
-              isSelected: itemIndex  == selectedIndex,
+              data: item,
+              isSelected: index == selectedIndex,
               ),
-          );
+            );
           }),
-        ],
+        
       ),
     );
   }
 }
 
-class NavBarData {
-  final IconData? icon;
-  final String? iconPath;
-
-  NavBarData({
-    this.icon,
-    this.iconPath,
-  }) {
-    assert(icon != null || iconPath != null, 'Either icon or iconPath must be provided');
-  }
-}
-
 
 class NavBarItem extends StatelessWidget {
-  final NavBarData data;
+  final NavigationItem data;
   final bool isSelected;
 
   const NavBarItem({
@@ -76,15 +60,22 @@ class NavBarItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           color: Theme.of(context).colorScheme.primary,
         ) : null,
-        child: data.icon != null
-            ? Icon(
-              data.icon, 
-              size: 24, 
-              color: isSelected ? 
-                Theme.of(context).colorScheme.onPrimary : 
-                Theme.of(context).colorScheme.primary,
-              )
-            : Image.asset(data.iconPath!, width: 24, height: 24),
+        child: Tooltip(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: isSelected
+              ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
+              : Colors.transparent,
+          ),
+          message: data.label,
+          child: Icon(
+            data.icon,
+            size: 24,
+            color: isSelected
+              ? Theme.of(context).colorScheme.onPrimary
+              : Theme.of(context).colorScheme.primary,
+            ),
+        ),
       );
 
   }

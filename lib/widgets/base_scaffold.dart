@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:multi_riverpood/providers/navigation_provider.dart';
-import 'package:multi_riverpood/routes/app_routes.dart';
 import 'package:multi_riverpood/widgets/nav_bar.dart';
 
 class BaseScaffold extends ConsumerWidget {
@@ -23,11 +21,9 @@ class BaseScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final location = GoRouterState.of(context).uri.toString();
-    //final selectedIndex = ref.watch(navigationIndexProvider);
     final selectedIndex = navigationItems.indexWhere(
       (item) => item.route == location,
     );
-    // final controller = ref.read(navigationIndexProvider.notifier);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -44,7 +40,7 @@ class BaseScaffold extends ConsumerWidget {
       bottomNavigationBar:
         MediaQuery.of(context).size.width < 640
           ? NavBar(
-              navBarItems: navigationItems.map((item) => NavBarData(icon: item.icon)).toList(),
+              navBarItems: navigationItems,
 
             )
           : null,
@@ -58,10 +54,7 @@ class BaseScaffold extends ConsumerWidget {
                     NavigationRailDestination(icon: Icon(item.icon), label: Text(item.label))).toList(),
                   selectedIndex: selectedIndex >=0 ? selectedIndex : 0,
                   onDestinationSelected: (int index) {
-                    //ref.read(navigationIndexProvider.notifier).state = index;
                     context.go(navigationItems[index].route);
-                    //      controller.setIndex(index);
-                     //     Navigator.pushNamed(context, AppRoutes.appRoutes.keys.elementAt(index+1));
                   },
                 )
               ),

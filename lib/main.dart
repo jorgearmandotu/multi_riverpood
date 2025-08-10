@@ -14,7 +14,7 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = ref.watch(routerProvider);
+    final appRouter = ref.watch(appRouterProvider);
     return Center(
         child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
