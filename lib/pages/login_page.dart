@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_riverpood/models/user.dart';
+import 'package:multi_riverpood/providers/auth_provider.dart';
 import 'package:multi_riverpood/widgets/password_text_field.dart';
 //import 'package:multisuministros/routes/app_routes.dart';
 
@@ -18,20 +20,20 @@ const LoginPage({ super.key});
       body: SafeArea(
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
-            child: _Form()),),
+            child: _FormConsumer()),),
      );
   }
 }
 
 
-class _Form extends StatefulWidget {
-  const _Form({super.key});
+class _FormConsumer extends ConsumerStatefulWidget {
+  const _FormConsumer({super.key});
 
   @override
-  State<_Form> createState() => _FormState();
+  ConsumerState<_FormConsumer> createState() => _FormConsumerState();
 }
 
-class _FormState extends State<_Form> {
+class _FormConsumerState extends ConsumerState<_FormConsumer> {
   final TextEditingController emailCtr = TextEditingController();
   final TextEditingController passwordCtr = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -90,7 +92,8 @@ class _FormState extends State<_Form> {
                             email: emailCtr.text.trim(),
                             password: passwordCtr.text.trim(),
                           );
-                          
+                          final authNotifier = ref.read(authStateProvider.notifier);
+                          authNotifier.state = true; // Simula el inicio de sesión
                         }
                       },
                 child: const Text('Iniciar sesión'),

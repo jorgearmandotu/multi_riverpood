@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:multi_riverpood/providers/auth_provider.dart';
 import 'package:multi_riverpood/widgets/nav_bar.dart';
 
 class BaseScaffold extends ConsumerWidget {
@@ -31,7 +32,7 @@ class BaseScaffold extends ConsumerWidget {
           actions: [
             IconButton(
               onPressed: () {
-                
+                ref.read(authStateProvider.notifier).state = false;
               },
               icon: const Icon(Icons.logout_outlined),
             ),
