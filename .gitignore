@@ -62,3 +62,7 @@ app.*.map.json
 **/linux/flutter/generated_plugin_registrant.cc
 **/linux/flutter/generated_plugin_registrant.h
 **/linux/flutter/generated_plugins.cmake
+
+
+
+.env/  # Environment variables file, often used for sensitive information

@@ -12,12 +12,22 @@ class User {
     this.name,
   });
 
-  static User fromJson(responseData) {
+  // static User fromJson(responseData) {
+  //   return User(
+  //     email: responseData['email'],
+  //     password: 'password',
+  //     token: responseData['token'],
+  //     name: responseData['name'],
+  //   );
+  // }
+
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      email: responseData['email'],
-      password: 'password',
-      token: responseData['token'],
-      name: responseData['name'],
+      email: json['email'].toString(),
+      password: json['password'] ?? 'password',
+      name: json['name'],
+      token: json['token'],
     );
   }
+
 }
