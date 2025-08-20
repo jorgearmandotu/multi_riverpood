@@ -86,13 +86,13 @@ class _FormConsumerState extends ConsumerState<_FormConsumer> {
               //   Text(state.error, style: const TextStyle(color: Colors.red)),
               // const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed:  () {
+                onPressed:  () async {
                         if (_formKey.currentState!.validate()) {
                           final newUser = User(
                             email: emailCtr.text.trim(),
                             password: passwordCtr.text.trim(),
                           );
-                          final authNotifier = ref.read(authStateProvider.notifier);
+                          await ref.read(authStateProvider.notifier).login();
                           authNotifier.state = true; // Simula el inicio de sesión
                         }
                       },
