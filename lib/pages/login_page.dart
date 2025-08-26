@@ -92,8 +92,8 @@ class _FormConsumerState extends ConsumerState<_FormConsumer> {
                             email: emailCtr.text.trim(),
                             password: passwordCtr.text.trim(),
                           );
-                          await ref.read(authStateProvider.notifier).login();
-                          authNotifier.state = true; // Simula el inicio de sesión
+                          await ref.read(authNotifierProvider.notifier).login(newUser);
+                          //authNotifier.state = true; // Simula el inicio de sesión
                         }
                       },
                 child: const Text('Iniciar sesión'),

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:multi_riverpood/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:multi_riverpood/features/auth/data/repositories/auth_repository.dart';
 import 'package:multi_riverpood/models/user.dart';
 
 final authStateProvider = StateProvider<bool>((href) => false);
@@ -13,8 +14,8 @@ final authRemoteDataSourceProvider = Provider(
   (ref) => AuthRemoteDataSource(ref.watch(httpClientProvider))
 );
 
-final authRepositoryProvider = Provider(
-  (ref) => authRepositoryProvider(ref.watch(authRemoteDataSourceProvider)),
+final authRepositoryProvider = Provider<AuthRepository>(
+  (ref) => AuthRepository(ref.watch(authRemoteDataSourceProvider)),
 );
 
 
@@ -26,7 +27,7 @@ class AuthState {
 
   AuthState({this.isLoading = false, this.user, this.error});
 
-  AuthState copyWith({bool? isLoading, UserModel? user, String? error}) {
+  AuthState copyWith({bool? isLoading, User? user, String? error}) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
@@ -40,10 +41,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository repository;
   AuthNotifier(this.repository) : super(AuthState());
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(User userLogin) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final user = await repository.login(email, password);
+      final user = await repository.login(userLogin);
       state = state.copyWith(isLoading: false, user: user);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

@@ -11,4 +11,5 @@ class AuthRepository {
   Future<User> login(User user) {
     return remoteDataSource.login(user);
   }
+  
 }
