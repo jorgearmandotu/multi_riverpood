@@ -19,7 +19,7 @@ class AuthRemoteDataSource {
 
     if(response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return User.fromJson(data);
+      return User.fromJson(data["data"]);
     } else {
       throw Exception("Error en Login: ${response.body}");
     }
